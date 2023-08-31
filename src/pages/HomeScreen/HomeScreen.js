@@ -1,19 +1,10 @@
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
-import React, { useEffect, useState } from "react";
-import { Button } from "react-native-paper";
+import React, { useContext } from "react";
 import Carousel from "react-native-snap-carousel";
-import axios from "axios";
+import { DiscoverContext } from "../../context/DiscoverContext";
 
 const HomeScreen = ({ navigation }) => {
-  const [eventData, setEventData] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(
-        "https://64f076628a8b66ecf779b4ba.mockapi.io/api/v1/events/react-native"
-      )
-      .then((res) => setEventData(res.data));
-  }, []);
+  const { eventData } = useContext(DiscoverContext);
 
   const { width: screenWidth } = Dimensions.get("window");
   const sliderWidth = screenWidth;
@@ -23,7 +14,8 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.itemContainer}>
       <Image style={styles.itemImg} source={{ uri: item.avatar }} />
       <Text style={styles.itemTitle}>{item.name}</Text>
-      <Text style={styles.itemDescription}>{item.center}</Text>
+      <Text style={styles.itemCenter}>{item.center}</Text>
+      <Text style={styles.itemCategory}>{item.category}</Text>
     </View>
   );
 
@@ -33,12 +25,19 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.title}>Popüler Etkinlikler</Text>
       </View>
       <Carousel
-        layout="default"
+        layout="stack"
         data={eventData}
         renderItem={renderItem}
         sliderWidth={sliderWidth}
         itemWidth={itemWidth}
       />
+
+      <View>
+        <View>
+          <Text>Etkinlikler</Text>
+        </View>
+
+      </View>
     </View>
     // <View>
     //   <Text>Popüler Etkinlikler</Text>
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: "#F3950D",
     borderRadius: 8,
-    padding:20,
+    padding: 20,
     alignItems: "center",
     justifyContent: "center",
     height: 350,
@@ -61,7 +60,8 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     marginBottom: 10,
-    borderRadius:100
+    borderRadius: 100,
+    resizeMode: "contain",
   },
   itemTitle: {
     fontSize: 24,
