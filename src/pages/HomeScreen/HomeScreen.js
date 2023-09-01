@@ -2,47 +2,43 @@ import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 import React, { useContext } from "react";
 import Carousel from "react-native-snap-carousel";
 import { DiscoverContext } from "../../context/DiscoverContext";
+import { Button } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const HomeScreen = ({ navigation }) => {
   const { eventData } = useContext(DiscoverContext);
 
   const { width: screenWidth } = Dimensions.get("window");
   const sliderWidth = screenWidth;
-  const itemWidth = screenWidth * 0.8;
+  const itemWidth = screenWidth * 0.5;
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <Image style={styles.itemImg} source={{ uri: item.avatar }} />
-      <Text style={styles.itemTitle}>{item.name}</Text>
-      <Text style={styles.itemCenter}>{item.center}</Text>
+      <Text style={styles.itemTitle} numberOfLines={1}>{item.name}</Text>
+      <Text style={styles.itemCenter} numberOfLines={1}>{item.center}</Text>
       <Text style={styles.itemCategory}>{item.category}</Text>
     </View>
   );
 
   return (
-    <View>
+    <SafeAreaView>
       <View>
         <Text style={styles.title}>Popüler Etkinlikler</Text>
       </View>
       <Carousel
-        layout="stack"
+        layout="default"
         data={eventData}
         renderItem={renderItem}
         sliderWidth={sliderWidth}
         itemWidth={itemWidth}
       />
-
       <View>
         <View>
-          <Text>Etkinlikler</Text>
+          <Text>kategoriler</Text>
         </View>
-
       </View>
-    </View>
-    // <View>
-    //   <Text>Popüler Etkinlikler</Text>
-    //   <Button onPress={() => navigation.navigate("Details")}>Detaylar</Button>
-    // </View>
+    </SafeAreaView>
   );
 };
 
@@ -51,22 +47,23 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: "#F3950D",
     borderRadius: 8,
-    padding: 20,
     alignItems: "center",
     justifyContent: "center",
-    height: 350,
+    height: 300,
+    padding:10
   },
   itemImg: {
-    width: 200,
-    height: 200,
+    width: 180,
+    height: 180,
+    borderRadius: 90,
     marginBottom: 10,
-    borderRadius: 100,
-    resizeMode: "contain",
+    resizeMode: "contain"
   },
   itemTitle: {
-    fontSize: 24,
+    fontSize: 15,
     fontWeight: "bold",
     marginBottom: 5,
+    textTransform: "uppercase"
   },
   title: {
     fontSize: 24,

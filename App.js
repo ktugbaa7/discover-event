@@ -1,33 +1,34 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./src/pages/HomeScreen/HomeScreen";
-import DetailsScreen from "./src/pages/DetailsScreen/DetailsScreen";
 import { DiscoverProvider } from "./src/context/DiscoverContext";
-import { SearchProvider } from "./src/context/SearchContext";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeStackScreen from "./src/TabStack/HomeStack";
+import ProfileStackScreen from "./src/TabStack/ProfileStack";
+import ListStackScreen from "./src/TabStack/ListStack";
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <DiscoverProvider>
-      <SearchProvider>
-
-      
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
+        <Tab.Navigator>
+          <Tab.Screen
             name="Home"
-            options={{ title: "Anasayfa" }}
-            component={HomeScreen}
+            component={HomeStackScreen}
+            options={{ headerShown: false }}
           />
-          <Stack.Screen
-            name="Details"
-            options={{ title: "Etkinlik Detayı" }}
-            component={DetailsScreen}
+          <Tab.Screen
+            name="List"
+            component={ListStackScreen}
+            options={{ headerShown: false }}
           />
-        </Stack.Navigator>
+          <Tab.Screen
+            name="Profile"
+            component={ProfileStackScreen}
+            options={{ headerShown: false }}
+          />
+        </Tab.Navigator>
       </NavigationContainer>
-      </SearchProvider>
     </DiscoverProvider>
   );
 }
