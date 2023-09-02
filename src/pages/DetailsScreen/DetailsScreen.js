@@ -8,13 +8,8 @@ const DetailsScreen = ({ route }) => {
   // Date and time formatting
   const timestart = id.timestart;
   const dateObject = new Date(timestart);
-  const formattedDateTime = new Intl.DateTimeFormat('tr-TR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(dateObject);
+  const formattedDateTime = dateObject.toLocaleDateString("tr-TR");
+  console.log(formattedDateTime);
   
   return (
     <SafeAreaView>
