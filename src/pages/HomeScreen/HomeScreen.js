@@ -10,9 +10,12 @@ import React, { useContext } from "react";
 import Carousel from "react-native-snap-carousel";
 import { DiscoverContext } from "../../context/DiscoverContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import PastDatesList from "../../components/PastDates/PastDates";
+import DateRangePicker from "../../components/Filter/Filter";
+import Loading from "../../components/Loading/Loader";
 
 const HomeScreen = ({ navigation }) => {
-  const { eventData } = useContext(DiscoverContext);
+  const { eventData, isLoading } = useContext(DiscoverContext);
 
   const { width: screenWidth } = Dimensions.get("window");
   const sliderWidth = screenWidth;
@@ -30,24 +33,27 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.itemCategory}>{item.category}</Text>
     </View>
   );
-
+  if (isLoading) return <Loading />;
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-        <View>
-          <Text style={styles.title}>Popüler Etkinlikler</Text>
-        </View>
-        <Carousel
-          layout="default"
-          data={eventData}
-          renderItem={renderItem}
-          sliderWidth={sliderWidth}
-          itemWidth={itemWidth}
-        />
-        <View>
+        <View style={{ flex: 1, backgroundColor: "yellow" }}>
           <View>
-            <Text>kategoriler</Text>
+            <Text style={styles.title}>Popüler Etkinlikler</Text>
           </View>
+          <Carousel
+            layout="default"
+            data={eventData}
+            renderItem={renderItem}
+            sliderWidth={sliderWidth}
+            itemWidth={itemWidth}
+          />
+        </View>
+        <View style={{ flex: 1, backgroundColor: "green" }}>
+          <DateRangePicker />
+        </View>
+        <View style={{ flex: 1, backgroundColor: "yellow" }}>
+          <PastDatesList />
         </View>
       </ScrollView>
     </SafeAreaView>

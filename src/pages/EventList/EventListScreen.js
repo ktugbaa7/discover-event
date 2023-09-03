@@ -7,7 +7,7 @@ import Loading from "../../components/Loading/Loader";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const EventListScreen = ({ navigation }) => {
-  const { eventdata, searchQuery, updateSearch, isLoading, error } =
+  const { eventData, searchQuery, updateSearch, isLoading, error } =
     useContext(DiscoverContext);
 
   if (isLoading) return <Loading />;
@@ -15,12 +15,12 @@ const EventListScreen = ({ navigation }) => {
   if (error) return <NotFound />;
 
   const goToDetails = (id) => {
-    navigation.navigate('Details', {id:id})
-  }
+    navigation.navigate("Details", { id: id });
+  };
 
   return (
-    <SafeAreaView>
-      <View style={{ padding: 10, backgroundColor: "orange" }}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ backgroundColor: "grey" }}>
         <Searchbar
           placeholder="Mekan, tür veya kişi ara"
           onChangeText={updateSearch}
@@ -29,12 +29,11 @@ const EventListScreen = ({ navigation }) => {
           iconColor="grey"
           rippleColor={"grey"}
           placeholderTextColor={"grey"}
+          style={{ margin: 10, borderColor: "red" }}
         />
-      </View>
-
-      <View>
         <FlatList
-          data={eventdata}
+          data={eventData}
+          style={{ padding: 10 }}
           renderItem={({ item }) => {
             if (searchQuery === "") {
               return (
@@ -82,6 +81,8 @@ const EventListScreen = ({ navigation }) => {
           }}
         />
       </View>
+
+      <View></View>
     </SafeAreaView>
   );
 };
