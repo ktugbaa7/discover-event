@@ -1,4 +1,11 @@
-import { View, Text, FlatList, Image, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import React, { useContext } from "react";
 import { Searchbar } from "react-native-paper";
 import { DiscoverContext } from "../../context/DiscoverContext";
@@ -20,69 +27,70 @@ const EventListScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ backgroundColor: "grey" }}>
-        <Searchbar
-          placeholder="Mekan, tür veya kişi ara"
-          onChangeText={updateSearch}
-          value={searchQuery}
-          mode="bar"
-          iconColor="grey"
-          rippleColor={"grey"}
-          placeholderTextColor={"grey"}
-          style={{ margin: 10, borderColor: "red" }}
-        />
-        <FlatList
-          data={eventData}
-          style={{ padding: 10 }}
-          renderItem={({ item }) => {
-            if (searchQuery === "") {
-              return (
-                <Pressable onPress={() => goToDetails(item)}>
-                  <Image
-                    source={{ uri: item.avatar }}
-                    style={{
-                      width: 100,
-                      height: 100,
-                      borderRadius: 50,
-                      resizeMode: "contain",
-                    }}
-                  />
-                  <View>
-                    <Text>{item.name}</Text>
-                    <Text>{item.center}</Text>
-                  </View>
-                </Pressable>
-              );
-            }
+      <ScrollView>
+        <View style={{ backgroundColor: "grey" }}>
+          <Searchbar
+            placeholder="Mekan, tür veya kişi ara"
+            onChangeText={updateSearch}
+            value={searchQuery}
+            mode="bar"
+            iconColor="grey"
+            rippleColor={"grey"}
+            placeholderTextColor={"grey"}
+            style={{ margin: 10, borderColor: "red" }}
+          />
+          <FlatList
+            data={eventData}
+            style={{ padding: 10 }}
+            renderItem={({ item }) => {
+              if (searchQuery === "") {
+                return (
+                  <Pressable onPress={() => goToDetails(item)}>
+                    <Image
+                      source={{ uri: item.avatar }}
+                      style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 50,
+                        resizeMode: "contain",
+                      }}
+                    />
+                    <View>
+                      <Text>{item.name}</Text>
+                      <Text>{item.center}</Text>
+                    </View>
+                  </Pressable>
+                );
+              }
 
-            if (
-              item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              item.center.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              item.type.toLowerCase().includes(searchQuery.toLowerCase())
-            ) {
-              return (
-                <Pressable onPress={() => goToDetails(item)}>
-                  <Image
-                    source={{ uri: item.avatar }}
-                    style={{
-                      width: 100,
-                      height: 100,
-                      borderRadius: 50,
-                      resizeMode: "contain",
-                    }}
-                  />
-                  <View>
-                    <Text>{item.name}</Text>
-                    <Text>{item.center}</Text>
-                  </View>
-                </Pressable>
-              );
-            }
-          }}
-        />
-      </View>
-
-      <View></View>
+              if (
+                item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.center.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.type.toLowerCase().includes(searchQuery.toLowerCase())
+              ) {
+                return (
+                  <Pressable onPress={() => goToDetails(item)}>
+                    <Image
+                      source={{ uri: item.avatar }}
+                      style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 50,
+                        resizeMode: "contain",
+                      }}
+                    />
+                    <View>
+                      <Text>{item.name}</Text>
+                      <Text>{item.center}</Text>
+                    </View>
+                  </Pressable>
+                );
+              }
+            }}
+          />
+        </View>
+        <View></View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

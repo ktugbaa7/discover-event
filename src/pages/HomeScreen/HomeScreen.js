@@ -11,7 +11,7 @@ import Carousel from "react-native-snap-carousel";
 import { DiscoverContext } from "../../context/DiscoverContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PastDatesList from "../../components/PastDates/PastDates";
-import DateRangePicker from "../../components/Filter/Filter";
+import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 import Loading from "../../components/Loading/Loader";
 
 const HomeScreen = ({ navigation }) => {
@@ -54,7 +54,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <View style={{ flex: 1, backgroundColor: "yellow" }}>
           <PastDatesList />
-        </View>
+        </View> 
       </ScrollView>
     </SafeAreaView>
   );
