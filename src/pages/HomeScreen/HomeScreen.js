@@ -1,94 +1,66 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Image,
-  ScrollView,
-} from "react-native";
+import { View, Text, Dimensions, Image } from "react-native";
 import React, { useContext } from "react";
-import Carousel from "react-native-snap-carousel";
 import { DiscoverContext } from "../../context/DiscoverContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import styles from "./HomeScreen.style";
 import PastDatesList from "../../components/PastDates/PastDates";
 import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
 import Loading from "../../components/Loading/Loader";
+import Slider from "../../components/Slider/Slider";
+import { ScrollView } from "react-native";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
   const { eventData, isLoading } = useContext(DiscoverContext);
 
   const { width: screenWidth } = Dimensions.get("window");
   const sliderWidth = screenWidth;
-  const itemWidth = screenWidth * 0.5;
+  const itemWidth = screenWidth * 0.8;
+
+  const currentDate = new Date();
+  const pastDates = eventData.filter((item) => {
+    const itemDate = new Date(item.timestart);
+    return itemDate < currentDate;
+  });
+
+  const popularItems = eventData.slice(0, 5);
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <Image style={styles.itemImg} source={{ uri: item.avatar }} />
-      <Text style={styles.itemTitle} numberOfLines={1}>
-        {item.name}
-      </Text>
-      <Text style={styles.itemCenter} numberOfLines={1}>
-        {item.center}
-      </Text>
-      <Text style={styles.itemCategory}>{item.category}</Text>
+      <View style={styles.description}>
+        <Text style={styles.itemTitle} numberOfLines={2}>
+          {item.name}
+        </Text>
+        <Text style={styles.itemCenter} numberOfLines={2}>
+          {item.center}
+        </Text>
+      </View>
     </View>
   );
+
   if (isLoading) return <Loading />;
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <View style={{ flex: 1, backgroundColor: "yellow" }}>
-          <View>
-            <Text style={styles.title}>Popüler Etkinlikler</Text>
-          </View>
-          <Carousel
-            layout="default"
-            data={eventData}
+    <SafeAreaView style={styles.container}>
+      <View style={{ flex: 1 }}>
+        <ScrollView>
+          <Text style={styles.title}>Popüler Etkinlikler</Text>
+
+          <Slider
+            data={popularItems}
             renderItem={renderItem}
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
           />
-        </View>
-        <View style={{ flex: 1, backgroundColor: "green" }}>
+          <Text style={styles.past_text}>Tarihe Göre Etkinlik Bul</Text>
           <DateRangePicker />
-        </View>
-        <View style={{ flex: 1, backgroundColor: "yellow" }}>
-          <PastDatesList />
-        </View> 
-      </ScrollView>
+
+          <Text style={styles.past_text}>Geçmiş Etkinlikler</Text>
+          <PastDatesList pastDates={pastDates} />
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  itemContainer: {
-    marginTop: 20,
-    backgroundColor: "#F3950D",
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 300,
-    padding: 10,
-  },
-  itemImg: {
-    width: 180,
-    height: 180,
-    borderRadius: 90,
-    marginBottom: 10,
-    resizeMode: "contain",
-  },
-  itemTitle: {
-    fontSize: 15,
-    fontWeight: "bold",
-    marginBottom: 5,
-    textTransform: "uppercase",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "900",
-    textAlign: "center",
-    padding: 10,
-  },
-});
 
 export default HomeScreen;

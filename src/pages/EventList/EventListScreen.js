@@ -1,87 +1,96 @@
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  Pressable,
-  ScrollView,
-} from "react-native";
-import React, { useContext } from "react";
-import { Searchbar } from "react-native-paper";
+import { View, Text, FlatList, Image, Pressable, Switch } from "react-native";
+import React, { useContext, useState } from "react";
 import { DiscoverContext } from "../../context/DiscoverContext";
-import NotFound from "../NotFound/NotFound";
-import Loading from "../../components/Loading/Loader";
 import { SafeAreaView } from "react-native-safe-area-context";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import styles from "./EventListScreen.style";
 
 const EventListScreen = ({ navigation }) => {
-  const { eventData, searchQuery, updateSearch, isLoading, error } =
-    useContext(DiscoverContext);
+  const { eventData, searchQuery, updateSearch } = useContext(DiscoverContext);
 
-  if (isLoading) return <Loading />;
-
-  if (error) return <NotFound />;
+  const [isFreeEvent, setIsFreeEvent] = useState(false);
+  const filteredEventData = eventData.filter((event) => {
+    if (isFreeEvent) {
+      return event.free === true;
+    }
+    return true;
+  });
 
   const goToDetails = (id) => {
     navigation.navigate("Details", { id: id });
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <View style={{ backgroundColor: "grey" }}>
-          <Searchbar
-            placeholder="Mekan, tür veya kişi ara"
-            onChangeText={updateSearch}
-            value={searchQuery}
-            mode="bar"
-            iconColor="grey"
-            rippleColor={"grey"}
-            placeholderTextColor={"grey"}
-            style={{ margin: 10, borderColor: "red" }}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.list_container}>
+        <Text style={styles.title}>Ara</Text>
+        <SearchBar updateSearch={updateSearch} searchQuery={searchQuery} />
+
+        <View style={styles.switch}>
+          <Text style={styles.switch_text}>Ücretsiz Etkinlikleri Göster</Text>
+          <Switch
+            value={isFreeEvent}
+            onValueChange={(value) => setIsFreeEvent(value)}
+            thumbColor={isFreeEvent ? "#593F76" : "#454545"}
+            trackColor={{ false: "#313131", true: "#3E3549" }}
           />
+        </View>
+        <View>
           <FlatList
-            data={eventData}
-            style={{ padding: 10 }}
+            data={filteredEventData}
+            style={styles.flatlist}
+            refreshing={true}
+            contentContainerStyle={{ paddingBottom: 150 }}
+            keyExtractor={(item) => item.id}
+            ListEmptyComponent={() => {
+              if (searchQuery !== "" || filteredEventData.length === 0) {
+                return <Text style={styles.errorText}>Sonuç Bulunamadı</Text>;
+              }
+              return null;
+            }}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
             renderItem={({ item }) => {
               if (searchQuery === "") {
                 return (
                   <Pressable onPress={() => goToDetails(item)}>
-                    <Image
-                      source={{ uri: item.avatar }}
-                      style={{
-                        width: 100,
-                        height: 100,
-                        borderRadius: 50,
-                        resizeMode: "contain",
-                      }}
-                    />
-                    <View>
-                      <Text>{item.name}</Text>
-                      <Text>{item.center}</Text>
+                    <View style={styles.eventItem}>
+                      <Image
+                        style={styles.avatar}
+                        source={{ uri: item.avatar }}
+                      />
+                      <View style={styles.description}>
+                        <Text style={styles.itemText} numberOfLines={2}>
+                          {item.name}
+                        </Text>
+                        <Text style={styles.center} numberOfLines={2}>
+                          {item.center}
+                        </Text>
+                      </View>
                     </View>
                   </Pressable>
                 );
               }
 
               if (
-                item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.center.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.type.toLowerCase().includes(searchQuery.toLowerCase())
+                [item.name, item.center, item.type].some((prop) =>
+                  prop.toLowerCase().includes(searchQuery.toLowerCase())
+                )
               ) {
                 return (
                   <Pressable onPress={() => goToDetails(item)}>
-                    <Image
-                      source={{ uri: item.avatar }}
-                      style={{
-                        width: 100,
-                        height: 100,
-                        borderRadius: 50,
-                        resizeMode: "contain",
-                      }}
-                    />
-                    <View>
-                      <Text>{item.name}</Text>
-                      <Text>{item.center}</Text>
+                    <View style={styles.eventItem}>
+                      <Image
+                        style={styles.avatar}
+                        source={{ uri: item.avatar }}
+                      />
+                      <View style={styles.description}>
+                        <Text style={styles.itemText} numberOfLines={2}>
+                          {item.name}
+                        </Text>
+                        <Text style={styles.center} numberOfLines={2}>
+                          {item.center}
+                        </Text>
+                      </View>
                     </View>
                   </Pressable>
                 );
@@ -89,8 +98,7 @@ const EventListScreen = ({ navigation }) => {
             }}
           />
         </View>
-        <View></View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

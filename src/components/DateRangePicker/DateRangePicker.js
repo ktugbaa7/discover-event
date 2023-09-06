@@ -1,25 +1,20 @@
 import React, { useContext, useState } from "react";
 import { Alert, FlatList } from "react-native";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Modal,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
+import styles from "./DateRangePicker.style";
 import { Button as PaperButton, List } from "react-native-paper";
-import Loader from "../Loading/Loader";
 import { DiscoverContext } from "../../context/DiscoverContext";
+import { Image } from "react-native";
+import { Pressable } from "react-native";
 
 const DateRangePicker = () => {
-  const { isLoading, eventData } = useContext(DiscoverContext);
+  const { eventData } = useContext(DiscoverContext);
 
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [filteredEvents, setFilteredEvents] = useState([]);
-
 
   const handleStartDatePress = () => {
     setShowStartDatePicker(true);
@@ -45,12 +40,12 @@ const DateRangePicker = () => {
 
   const renderDateEndItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleEndDateChange(item)}>
-      <Text>{item.toDateString()}</Text>
+      <Text>{item.toLocaleDateString("tr-TR")}</Text>
     </TouchableOpacity>
   );
   const renderDateStartItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleStartDateChange(item)}>
-      <Text>{item.toDateString()}</Text>
+      <Text>{item.toLocaleDateString("tr-TR")}</Text>
     </TouchableOpacity>
   );
 
@@ -77,50 +72,70 @@ const DateRangePicker = () => {
           setFilteredEvents(filteredEvents);
         });
       } else {
-        Alert.alert("Seçilen tarih aralığında etkinlik bulunamadı.")
+        Alert.alert("Seçilen tarih aralığında etkinlik bulunamadı.");
       }
     } else {
-      Alert.alert("Tarih aralığı seçilmedi.")
+      Alert.alert("Tarih aralığı seçilmedi.");
     }
   };
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <PaperButton
-          mode="contained-tonal"
+          mode="outlined"
+          textColor="#5D67D3"
+          icon="chevron-down"
+          contentStyle={styles.content}
           onPress={handleStartDatePress}
           style={styles.paperButton}
         >
-          Başlangıç
+          {startDate ? startDate.toLocaleDateString("tr-TR") : " Başlangıç"}
         </PaperButton>
         <PaperButton
-          mode="contained-tonal"
+          mode="outlined"
+          textColor="#5D67D3"
+          icon="chevron-down"
+          contentStyle={styles.content}
           onPress={handleEndDatePress}
           style={styles.paperButton}
         >
-          Bitiş Tarihi
+          {endDate ? endDate.toLocaleDateString("tr-TR") : " Bitiş"}
+        </PaperButton>
+        <PaperButton
+          mode="outlined"
+          textColor="#5D67D3"
+          onPress={handleConfirm}
+          style={styles.paperButton}
+        >
+          Onayla
         </PaperButton>
       </View>
-      <PaperButton
-        mode="contained"
-        onPress={handleConfirm}
-        style={styles.paperButton}
-      >
-        Sonuçları Göster
-      </PaperButton>
-      <View>
-        <Text style={styles.dateText}>
-          {startDate ? startDate.toDateString() : ""}
-        </Text>
-        <Text style={styles.dateText}>
-          {endDate ? endDate.toDateString() : ""}
-        </Text>
+      <View style={styles.list_container}>
+        <FlatList
+          data={filteredEvents}
+          renderItem={({ item }) => (
+            <Pressable>
+              <View style={styles.eventItem}>
+                <Image style={styles.avatar} source={{ uri: item.avatar }} />
+                <View style={styles.description}>
+                  <Text style={styles.itemText} numberOfLines={2}>
+                    {item.name}
+                  </Text>
+                  <Text style={styles.center} numberOfLines={2}>
+                    {item.center}
+                  </Text>
+                </View>
+              </View>
+            </Pressable>
+          )}
+          keyExtractor={(item) => item.id.toString()}
+          showsVerticalScrollIndicator
+        />
       </View>
-
       <Modal
         visible={showStartDatePicker}
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         onRequestClose={() => setShowStartDatePicker(false)}
       >
@@ -134,10 +149,9 @@ const DateRangePicker = () => {
           </List.Section>
         </View>
       </Modal>
-
       <Modal
         visible={showEndDatePicker}
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         onRequestClose={() => setShowEndDatePicker(false)}
       >
@@ -151,73 +165,8 @@ const DateRangePicker = () => {
           </List.Section>
         </View>
       </Modal>
-      <View>
-        <FlatList
-          data={filteredEvents}
-          renderItem={({ item }) => {
-            if (isLoading) return <Loader />;
-            return (
-              <View style={styles.eventItem}>
-                <Text>{item.name}</Text>
-              </View>
-            );
-          }}
-          keyExtractor={(item) => item.id.toString()}
-          showsVerticalScrollIndicator
-        />
-      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-
-    marginTop: 80,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-  dateText: {
-    textAlign: "center",
-    marginVertical: 1,
-    opacity: 0.3,
-  },
-  modalContainer: {
-    flex: 1,
-    marginBottom: 300,
-    marginTop: 300,
-    marginLeft: 100,
-    marginRight: 100,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  eventItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
-    borderBottomWidth: 1,
-    borderColor: "#ccc",
-  },
-  paperButton: {
-    borderRadius: 8,
-  },
-});
 
 export default DateRangePicker;

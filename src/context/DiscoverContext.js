@@ -8,16 +8,24 @@ export const DiscoverProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [eventData, setEventData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [resultTitle, setResultTitle] = useState("");
 
   const getData = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/v1/events/react-native?name${searchQuery}&?center${searchQuery}&?type${searchQuery}`
+        `/v1/events/react-native?name${searchQuery}&center${searchQuery}&type${searchQuery}`
       );
       const returnedData = await response.data;
+
       setEventData(returnedData);
       setIsLoading(false);
+
+      if (returnedData?.length > 0) {
+        setResultTitle("");
+      } else {
+        setResultTitle("No Search Result Found!");
+      }
     } catch (err) {
       setError(err);
       console.log("ERROR", err);
@@ -32,7 +40,7 @@ export const DiscoverProvider = ({ children }) => {
   useEffect(() => {
     setIsLoading(true);
     getData();
-  }, []);
+  }, [searchQuery]);
 
   const values = {
     eventData,
@@ -41,6 +49,7 @@ export const DiscoverProvider = ({ children }) => {
     error,
     setSearchQuery,
     updateSearch,
+    resultTitle,
   };
 
   return (

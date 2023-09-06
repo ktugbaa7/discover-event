@@ -5,7 +5,7 @@ const NotFound = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-        Error in fetching data...
+        404 - Sayfa Bulunamadı
       </Text>
     </View>
   );
