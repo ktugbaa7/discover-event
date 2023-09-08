@@ -1,28 +1,43 @@
 import { View, Text, Dimensions, Image } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DiscoverContext } from "../../context/DiscoverContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./HomeScreen.style";
-import PastDatesList from "../../components/PastDates/PastDates";
-import DateRangePicker from "../../components/DateRangePicker/DateRangePicker";
+import DateRangePicker from "../../components/DateRangePicker/index";
 import Loading from "../../components/Loading/Loader";
-import Slider from "../../components/Slider/Slider";
+import Slider from "../../components/Slider/index";
 import { ScrollView } from "react-native";
+import Categories from "../../components/HomeCategories/index";
+import Events from "../../components/EventItem/index";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const { eventData, isLoading } = useContext(DiscoverContext);
 
   const { width: screenWidth } = Dimensions.get("window");
   const sliderWidth = screenWidth;
   const itemWidth = screenWidth * 0.8;
 
-  const currentDate = new Date();
-  const pastDates = eventData.filter((item) => {
-    const itemDate = new Date(item.timestart);
-    return itemDate < currentDate;
-  });
+  const minimumRating = 8;
+  const popularItems = eventData.filter((item) => item.rating >= minimumRating);
 
-  const popularItems = eventData.slice(0, 5);
+  const [isFreeEvent, setIsFreeEvent] = useState([]);
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+  const formatDates = (date) => {
+    return new Intl.DateTimeFormat("tr-TR").format(date);
+  };
+  const filterData = () => {
+    const filtered = eventData.filter(
+      (item) =>
+        item.free === true &&
+        formatDates(new Date(item.timestart)) >= formatDates(today)
+    );
+    setIsFreeEvent([...filtered]);
+  };
+  useEffect(() => {
+    filterData();
+  }, []);
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
@@ -30,9 +45,6 @@ const HomeScreen = () => {
       <View style={styles.description}>
         <Text style={styles.itemTitle} numberOfLines={2}>
           {item.name}
-        </Text>
-        <Text style={styles.itemCenter} numberOfLines={2}>
-          {item.center}
         </Text>
       </View>
     </View>
@@ -42,8 +54,8 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flex: 1 }}>
-        <ScrollView>
+      <ScrollView>
+        <View style={{ flex: 1 }}>
           <Text style={styles.title}>Popüler Etkinlikler</Text>
 
           <Slider
@@ -52,13 +64,18 @@ const HomeScreen = () => {
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
           />
-          <Text style={styles.past_text}>Tarihe Göre Etkinlik Bul</Text>
-          <DateRangePicker />
 
-          <Text style={styles.past_text}>Geçmiş Etkinlikler</Text>
-          <PastDatesList pastDates={pastDates} />
-        </ScrollView>
-      </View>
+          <View>
+            <Categories navigation={navigation}/>
+          </View>
+          <Text style={styles.past_text}>Tarihe Göre Etkinlik Bul</Text>
+
+          <DateRangePicker navigation={navigation}/>
+
+          <Text style={styles.past_text}>Ücretsiz Etkinlikler</Text>
+          <Events data={isFreeEvent}/>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

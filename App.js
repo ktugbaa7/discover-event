@@ -14,9 +14,8 @@ export default function App() {
         <Tab.Navigator
           screenOptions={{
             tabBarShowLabel: false,
-            tabBarActiveTintColor: "orange",
-            tabBarStyle: { backgroundColor: "#202020" },
-            tabBarActiveTintColor: "#42499A"
+            tabBarStyle: { backgroundColor: "#f1f1f1" },
+            tabBarActiveTintColor: "#2ed87b"
           }}
         >
           <Tab.Screen

@@ -1,170 +1,112 @@
-import React, { useContext, useState } from "react";
-import { Alert, FlatList } from "react-native";
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, FlatList } from "react-native";
 import styles from "./DateRangePicker.style";
-import { Button as PaperButton, List } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { DiscoverContext } from "../../context/DiscoverContext";
-import { Image } from "react-native";
-import { Pressable } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Fontisto } from "@expo/vector-icons";
+import ListPressable from "../ListPressable";
 
-const DateRangePicker = () => {
+const DateRangePicker = ({ navigation }) => {
   const { eventData } = useContext(DiscoverContext);
-
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+  const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+  const minDate = new Date();
 
-  const handleStartDatePress = () => {
-    setShowStartDatePicker(true);
+  const goToDetails = (id) => {
+    navigation.navigate("Detay", { id: id });
   };
 
-  const handleEndDatePress = () => {
-    setShowEndDatePicker(true);
+  const showDatePicker = (type) => {
+    type === "start"
+      ? setShowStartDatePicker(true)
+      : setShowEndDatePicker(true);
   };
-
-  const handleStartDateChange = (selectedDate) => {
+  const handleStartDateChange = (event, selectedDate) => {
     setShowStartDatePicker(false);
-    if (selectedDate) {
-      setStartDate(selectedDate);
-    }
+    setSelectedStartDate(selectedDate || selectedStartDate);
   };
-
-  const handleEndDateChange = (selectedDate) => {
+  const handleEndDateChange = (event, selectedDate) => {
     setShowEndDatePicker(false);
-    if (selectedDate) {
-      setEndDate(selectedDate);
-    }
+    setSelectedEndDate(selectedDate || selectedEndDate);
   };
 
-  const renderDateEndItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleEndDateChange(item)}>
-      <Text>{item.toLocaleDateString("tr-TR")}</Text>
-    </TouchableOpacity>
+  const filteredEvents = eventData.filter((item) => {
+    const eventDate = new Date(item.timestart);
+    return eventDate >= selectedStartDate && eventDate <= selectedEndDate;
+  });
+
+  const sortedEvents = [...filteredEvents].sort(
+    (event1, event2) =>
+      new Date(event1.timestart).getTime() -
+      new Date(event2.timestart).getTime()
   );
-  const renderDateStartItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleStartDateChange(item)}>
-      <Text>{item.toLocaleDateString("tr-TR")}</Text>
-    </TouchableOpacity>
-  );
-
-  const generateDateList = () => {
-    const dates = [];
-    const currentDate = new Date();
-    for (let i = 0; i < 200; i++) {
-      const date = new Date(currentDate);
-      date.setDate(currentDate.getDate() + i);
-      dates.push(date);
-    }
-    return dates;
-  };
-
-  const handleConfirm = () => {
-    if (startDate && endDate) {
-      const filteredEvents = eventData.filter((item) => {
-        const eventDate = new Date(item.timestart);
-        return eventDate >= startDate && eventDate <= endDate;
-      });
-
-      if (filteredEvents.length > 0) {
-        filteredEvents.forEach(() => {
-          setFilteredEvents(filteredEvents);
-        });
-      } else {
-        Alert.alert("Seçilen tarih aralığında etkinlik bulunamadı.");
-      }
-    } else {
-      Alert.alert("Tarih aralığı seçilmedi.");
-    }
-  };
+  useEffect(() => {
+    filteredEvents.sort(
+      (event1, event2) =>
+        new Date(event1.timestart) - new Date(event2.timestart)
+    );
+  }, [selectedStartDate, selectedEndDate]);
 
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <PaperButton
-          mode="outlined"
-          textColor="#5D67D3"
-          icon="chevron-down"
-          contentStyle={styles.content}
-          onPress={handleStartDatePress}
-          style={styles.paperButton}
+        <Button
+          style={styles.button}
+          rippleColor="white"
+          icon={() => <Fontisto name="date" style={styles.date} />}
+          onPress={() => showDatePicker("start")}
         >
-          {startDate ? startDate.toLocaleDateString("tr-TR") : " Başlangıç"}
-        </PaperButton>
-        <PaperButton
-          mode="outlined"
-          textColor="#5D67D3"
-          icon="chevron-down"
-          contentStyle={styles.content}
-          onPress={handleEndDatePress}
-          style={styles.paperButton}
+          <Text style={styles.text}>
+            {selectedStartDate
+              ? selectedStartDate.toLocaleDateString("tr-TR")
+              : "Başlangıç"}
+          </Text>
+        </Button>
+        <Button
+          style={styles.button}
+          rippleColor="white"
+          icon={() => <Fontisto name="date" style={styles.date} />}
+          onPress={() => showDatePicker("end")}
         >
-          {endDate ? endDate.toLocaleDateString("tr-TR") : " Bitiş"}
-        </PaperButton>
-        <PaperButton
-          mode="outlined"
-          textColor="#5D67D3"
-          onPress={handleConfirm}
-          style={styles.paperButton}
-        >
-          Onayla
-        </PaperButton>
+          <Text style={styles.text}>
+            {selectedEndDate
+              ? selectedEndDate.toLocaleDateString("tr-TR")
+              : "Bitiş"}
+          </Text>
+        </Button>
       </View>
-      <View style={styles.list_container}>
-        <FlatList
-          data={filteredEvents}
-          renderItem={({ item }) => (
-            <Pressable>
-              <View style={styles.eventItem}>
-                <Image style={styles.avatar} source={{ uri: item.avatar }} />
-                <View style={styles.description}>
-                  <Text style={styles.itemText} numberOfLines={2}>
-                    {item.name}
-                  </Text>
-                  <Text style={styles.center} numberOfLines={2}>
-                    {item.center}
-                  </Text>
-                </View>
-              </View>
-            </Pressable>
-          )}
-          keyExtractor={(item) => item.id.toString()}
-          showsVerticalScrollIndicator
+      {showStartDatePicker && (
+        <DateTimePicker
+          value={selectedStartDate}
+          mode="date"
+          display="calendar"
+          minimumDate={minDate}
+          onChange={handleStartDateChange}
         />
-      </View>
-      <Modal
-        visible={showStartDatePicker}
-        animationType="fade"
-        transparent={true}
-        onRequestClose={() => setShowStartDatePicker(false)}
-      >
-        <View style={styles.modalContainer}>
-          <List.Section>
-            <FlatList
-              data={generateDateList()}
-              renderItem={renderDateStartItem}
-              keyExtractor={(item) => item.toISOString()}
-            />
-          </List.Section>
-        </View>
-      </Modal>
-      <Modal
-        visible={showEndDatePicker}
-        animationType="fade"
-        transparent={true}
-        onRequestClose={() => setShowEndDatePicker(false)}
-      >
-        <View style={styles.modalContainer}>
-          <List.Section>
-            <FlatList
-              data={generateDateList()}
-              renderItem={renderDateEndItem}
-              keyExtractor={(item) => item.toISOString()}
-            />
-          </List.Section>
-        </View>
-      </Modal>
+      )}
+      {showEndDatePicker && (
+        <DateTimePicker
+          value={selectedEndDate}
+          mode="date"
+          display="calendar"
+          minimumDate={minDate}
+          onChange={handleEndDateChange}
+        />
+      )}
+      <FlatList
+        data={sortedEvents}
+        nestedScrollEnabled={true}
+        scrollEnabled={false}
+        showsVerticalScrollIndicator={false}
+        style={styles.flatlist}
+        refreshing={true}
+        contentContainerStyle={{ paddingVertical: 20 }}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ListPressable item={item} goToDetails={goToDetails} />}
+      />
     </View>
   );
 };

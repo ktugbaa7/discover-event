@@ -1,16 +1,17 @@
 import { StyleSheet } from "react-native";
+import { globalStyle } from "../../assets/variable";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0F0F0F",
+    backgroundColor: globalStyle.secondary,
   },
   itemContainer: {
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
-    height: 300,
+    height: 250,
   },
   itemImg: {
     width: "100%",
@@ -19,12 +20,15 @@ export default StyleSheet.create({
     marginBottom: 10,
     resizeMode: "contain",
     backgroundColor: "#040D12",
-    opacity: 0.6,
   },
   description: {
     zIndex: 99,
-    paddingTop: 200,
+    width: "100%",
     position: "absolute",
+    height:40,
+    top:170,
+    backgroundColor: "rgba(128, 128, 128, 0.5)",
+    justifyContent: "center"
   },
   itemTitle: {
     fontSize: 15,
@@ -33,24 +37,19 @@ export default StyleSheet.create({
     textTransform: "uppercase",
     color: "white",
     textAlign: "center",
-  },
-  itemCenter: {
-    color: "white",
-    textAlign: "center",
+    
   },
   title: {
-    flex: 1,
     fontSize: 24,
-    fontWeight: "900",
+    fontWeight: "bold",
     marginHorizontal: 15,
     paddingVertical: 20,
-    color: "#4A52AC",
+    color: globalStyle.textColorBlack,
   },
   past_text: {
-    color: "#4A52AC",
+    color: globalStyle.textColorBlack,
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: "bold",
     marginHorizontal: 15,
-    marginBottom: 20,
   },
 });

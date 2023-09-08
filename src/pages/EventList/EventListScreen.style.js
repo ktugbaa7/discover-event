@@ -1,20 +1,20 @@
 import { StyleSheet } from "react-native";
+import { globalStyle } from "../../assets/variable";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#161616",
+    backgroundColor: globalStyle.secondary,
   },
   list_container: {
     flex: 1,
   },
   title: {
-    color: "#5D67D3",
+    color: globalStyle.textColorBlack,
     fontSize: 25,
     fontWeight: "bold",
     marginHorizontal: 15,
     marginVertical: 10,
-    marginTop: 20,
   },
   switch: {
     flexDirection: "row",
@@ -22,16 +22,9 @@ export default StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 15,
   },
-  switch_text: {
-    color: "#5D67D3",
-  },
   flatlist: {
     marginHorizontal: 15,
     marginBottom: 30,
-  },
-  errorText: {
-    color: "white",
-    fontSize: 20,
   },
   eventItem: {
     flexDirection: "row",
@@ -40,14 +33,15 @@ export default StyleSheet.create({
     height: 100,
     width: 380,
     borderRadius: 15,
-    backgroundColor: "#0F0F0F",
+    backgroundColor: globalStyle.itemBackground,
+    marginBottom: 5,
   },
   avatar: {
-    resizeMode: "cover",
+    resizeMode: "contain",
     width: "25%",
-    height: "100%",
-    borderBottomLeftRadius: 15,
-    borderTopLeftRadius: 15,
+    margin:10,
+    height:"85%",
+    borderRadius:15
   },
   description: {
     width: "75%",
@@ -61,5 +55,27 @@ export default StyleSheet.create({
   center: {
     fontSize: 13,
     color: "#42499A",
+  },
+  tabButton: {
+    width: "50%",
+    backgroundColor: globalStyle.textColorGrey,
+    borderRadius: 15,
+    paddingVertical:3
+  },
+  activeTab: {
+    width: "50%",
+    backgroundColor: globalStyle.primary,
+    borderRadius: 15,
+    paddingVertical:3
+  },
+  tabButtons: {
+    flexDirection: "row",
+    marginHorizontal: 15,
+    marginVertical: 15,
+  },
+  tabButtonText: {
+    color: "white",
+    padding: 5,
+    textAlign: "center",
   },
 });

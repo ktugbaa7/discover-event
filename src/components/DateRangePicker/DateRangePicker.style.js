@@ -1,44 +1,15 @@
 import { StyleSheet } from "react-native";
+import { globalStyle } from "../../assets/variable";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 15,
   },
   list_container: {
     marginVertical: 20,
-  },
-  eventItem: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    height: 100,
-    width: 380,
-    marginBottom: 10,
-    borderRadius: 15,
-    backgroundColor: "#161616",
-  },
-  avatar: {
-    resizeMode: "cover",
-    width: "25%",
-    height: "100%",
-    borderBottomLeftRadius: 15,
-    borderTopLeftRadius: 15,
-  },
-  description: {
-    width: "75%",
-    paddingHorizontal: 15,
-  },
-  itemText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#5D67D3",
-  },
-  center: {
-    fontSize: 13,
-    color: "#696C91",
   },
   row: {
     flexDirection: "row",
@@ -79,8 +50,20 @@ export default StyleSheet.create({
     flexDirection: "row-reverse",
     justifyContent: "center",
   },
-  content: {
-    flexDirection: "row-reverse",
-    width: 130,
+  button:{
+    borderRadius:15,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    backgroundColor: globalStyle.primary,
   },
+  text:{
+    color: globalStyle.itemBackground,
+    paddingLeft:10,
+    paddingRight:25
+  },
+  date: {
+    color: globalStyle.itemBackground,
+    paddingLeft:25,
+    fontSize: 15
+  }
 });

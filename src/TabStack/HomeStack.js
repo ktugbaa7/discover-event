@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../pages/HomeScreen/HomeScreen";
 import DetailsScreen from "../pages/DetailsScreen/DetailsScreen";
 import Loading from "../components/Loading/Loader";
 import NotFound from "../pages/NotFound/NotFound";
+import { DiscoverContext } from "../context/DiscoverContext";
+import CategoryScreen from "../pages/CategoryScreen/index";
 
 const HomeStack = createNativeStackNavigator();
 const HomeStackScreen = () => {
+  const { error } = useContext(DiscoverContext);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,6 +22,9 @@ const HomeStackScreen = () => {
   if (loading) {
     return <Loading />;
   }
+  if (error) {
+    return <NotFound />;
+  }
 
   return (
     <HomeStack.Navigator>
@@ -28,10 +34,11 @@ const HomeStackScreen = () => {
         options={{ headerShown: false }}
       />
       <HomeStack.Screen
-        name="Details"
-        component={DetailsScreen}
-        options={{ headerShown: false }}
+        name="Kategori"
+        component={CategoryScreen}
+        
       />
+      <HomeStack.Screen name="Detay" component={DetailsScreen} />
       <HomeStack.Screen name="NotFound" component={NotFound} />
     </HomeStack.Navigator>
   );

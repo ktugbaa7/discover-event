@@ -2,7 +2,12 @@ import { View, Text } from "react-native";
 import React from "react";
 import styles from "./DetailsCard.style";
 import { Image } from "react-native";
-import { AntDesign, Entypo, MaterialIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Entypo,
+  MaterialIcons,
+  FontAwesome5,
+} from "@expo/vector-icons";
 
 const DetailsCard = ({ id, formattedDateTime, starRating, renderStars }) => {
   return (
@@ -10,12 +15,16 @@ const DetailsCard = ({ id, formattedDateTime, starRating, renderStars }) => {
       <Image style={styles.image} source={{ uri: id.avatar }} />
       <Text style={styles.text_title}>{id.name}</Text>
       <View style={styles.center}>
+        <FontAwesome5 name="tag" style={styles.tag} />
+        <Text style={styles.type}>{id.type}</Text>
+      </View>
+      <View style={styles.center}>
         <MaterialIcons name="place" style={styles.place} />
         <Text style={styles.text_center}>{id.center}</Text>
       </View>
       <Text style={styles.text}>{id.description}</Text>
       <View style={styles.free}>
-        <Entypo esign name="ticket" style={styles.rocket} />
+        <Entypo esign name="ticket" style={styles.ticket} />
         <Text style={styles.text}>
           {id.free === false ? "Biletli" : "Ücretsiz"}
         </Text>

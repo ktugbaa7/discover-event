@@ -1,4 +1,12 @@
-import { View, Image, Dimensions, ScrollView, Share } from "react-native";
+import {
+  View,
+  Image,
+  Dimensions,
+  ScrollView,
+  Share,
+  Text,
+  Pressable,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DiscoverContext } from "../../context/DiscoverContext";
@@ -6,11 +14,12 @@ import Loading from "../../components/Loading/Loader";
 import { AntDesign } from "@expo/vector-icons";
 import { Button } from "react-native-paper";
 import styles from "./DetailsScreen.style";
-import DetailsCard from "../../components/DetailsCard/DetailsCard";
-import Categories from "../../components/Categories/Categories";
-import OtherActivities from "../../components/OtherActivities/OtherActivities";
-import Slider from "../../components/Slider/Slider";
-import Map from "../../components/Map/Map";
+import DetailsCard from "../../components/DetailsCard/index";
+import Categories from "../../components/Categories/index";
+import Slider from "../../components/Slider/index";
+import Map from "../../components/Map/index";
+import Events from "../../components/EventItem/index";
+import { globalStyle } from "../../assets/variable";
 
 const DetailsScreen = ({ route }) => {
   const { id } = route.params;
@@ -44,7 +53,7 @@ const DetailsScreen = ({ route }) => {
   );
 
   const filteredDataCenter = eventData.filter(
-    (item) => item.center === selectedCenter
+    (item) => item.center === selectedCenter && item.id !== id.id
   );
 
   const starRating = id.rating;
@@ -58,7 +67,9 @@ const DetailsScreen = ({ route }) => {
     const stars = [];
 
     for (let i = 0; i < filledStarsCount; i++) {
-      stars.push(<AntDesign key={i} name="star" size={20} color="#42499A" />);
+      stars.push(
+        <AntDesign key={i} name="star" size={20} color={globalStyle.primary} />
+      );
     }
     for (let i = 0; i < emptyStarsCount; i++) {
       stars.push(
@@ -66,7 +77,7 @@ const DetailsScreen = ({ route }) => {
           key={i + filledStarsCount}
           name="staro"
           size={20}
-          color="#42499A"
+          color={globalStyle.primary}
         />
       );
     }
@@ -117,24 +128,35 @@ const DetailsScreen = ({ route }) => {
           starRating={starRating}
           renderStars={renderStars}
         />
-        <Button mode="contained" style={styles.button} onPress={onShare}>
-          <AntDesign name="sharealt" size={22} color="#C9C9C9" />
-        </Button>
-        <Categories id={id} categories={categories} />
-
-        <OtherActivities
-          id={id}
-          setSelectedCenter={setSelectedCenter}
-          selectedCenter={selectedCenter}
-          filteredDataCenter={filteredDataCenter}
-        />
-
+        <View style={styles.slider}>
+          <Text style={styles.text}>Fotoğraf Galerisi</Text>
+        </View>
         <Slider
           data={imageUrls}
           renderItem={renderItem}
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
         />
+
+        <Categories id={id} categories={categories} />
+        <Button mode="contained" style={styles.button} onPress={onShare}>
+          <AntDesign name="sharealt" style={styles.share} />
+        </Button>
+
+        <View style={styles.contant}>
+          <Text style={styles.textHead}>
+            Bu mekandaki diğer etkinlikleri görmek için
+          </Text>
+          <Pressable onPress={() => setSelectedCenter(id.center)}>
+            <Text style={styles.pressable}>tıkla</Text>
+          </Pressable>
+        </View>
+        {selectedCenter &&
+          (filteredDataCenter.length > 0 ? (
+            <Events data={filteredDataCenter} />
+          ) : (
+            <Text style={styles.eventText}>Bu mekanda başka etkinlik yok.</Text>
+          ))}
 
         <Map id={id} mapLatitude={mapLatitude} mapLongitude={mapLongitude} />
       </ScrollView>

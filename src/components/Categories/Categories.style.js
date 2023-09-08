@@ -1,17 +1,22 @@
 import { StyleSheet } from "react-native";
+import { globalStyle } from "../../assets/variable";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
     paddingVertical: 24,
+    backgroundColor: globalStyle.itemBackground,
+    marginHorizontal:15,
+    marginVertical:20,
+    borderRadius:15
   },
   categoriesContainer: {
-    gap: 5,
-    marginBottom: 16,
+    gap: 10,
   },
   card: {
     flex: 1,
+    borderRadius:15
   },
   cardContent: {
     flexDirection: "row",
@@ -21,6 +26,14 @@ export default StyleSheet.create({
     borderRadius: 15,
   },
   button: {
-    backgroundColor: "#42499A",
+    backgroundColor: globalStyle.primary,
   },
+  textHead:{
+    color: globalStyle.textColorBlack,
+    fontWeight: "bold",
+    fontSize: 20
+  },
+  name:{
+    color: globalStyle.textColorBlack
+  }
 });

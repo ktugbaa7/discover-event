@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { globalStyle } from "../../assets/variable";
 
 export default StyleSheet.create({
   containerMaps: {
@@ -6,20 +7,31 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 40,
-    width: "100%",
-    height: 300,
+    backgroundColor: globalStyle.itemBackground,
+    marginHorizontal:15,
+    paddingBottom:20,
+    borderRadius:15
   },
   container: {
     width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
     marginHorizontal: 15,
+    paddingHorizontal:18,
   },
   text: {
-    color: "#42499A",
+    color: globalStyle.textColorBlack,
+    fontWeight: "bold",
     fontSize: 20,
-    marginHorizontal: 15,
+    paddingVertical:10,
+    marginLeft:5
   },
   map: {
-    width: 370,
-    height: 300,
+    width: 345,
+    height: 300
   },
+  icon: {
+    color: globalStyle.primary,
+    fontSize:20
+  }
 });

@@ -1,15 +1,16 @@
 import { StyleSheet } from "react-native";
+import { globalStyle } from "../../assets/variable";
 
 export default StyleSheet.create({
   card_container: {
     padding: 15,
-    backgroundColor: "#161616",
+    backgroundColor: globalStyle.itemBackground,
     marginHorizontal: 15,
     borderRadius: 15,
   },
   image: {
     width: "100%",
-    height: 400,
+    height: 350,
     resizeMode: "contain",
     borderRadius: 15,
   },
@@ -18,34 +19,42 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   text_title: {
-    color: "#C9C9C9",
+    color: globalStyle.textColorBlack,
     fontSize: 22,
     marginTop: 20,
+    fontWeight: "bold"
   },
   center: {
     flexDirection: "row",
     justifyContent: "flex-start",
     marginVertical: 8,
-    alignItems: "center",
+    alignItems: "center"
   },
   place: {
     fontSize: 24,
-    color: "#42499A",
+    color: globalStyle.primary,
   },
   text_center: {
-    color: "#C9C9C9",
+    color: globalStyle.textColorBlack,
     fontSize: 20,
   },
   text: {
-    color: "#C9C9C9",
+    color: globalStyle.textColorBlack,
     fontSize: 15,
   },
-  rocket: {
-    fontSize: 22,
-    color: "#42499A",
+  ticket: {
+    fontSize: 23,
+    color: globalStyle.primary,
     marginRight: 10,
   },
-
+  type:{
+    color: globalStyle.textColorGrey,
+  },
+  tag:{
+    fontSize:15,
+    color: globalStyle.primary,
+    marginRight:10
+  },
   free: {
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -58,11 +67,11 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   text_time: {
-    color: "#C9C9C9",
-    fontSize: 20,
+    color: globalStyle.textColorBlack,
+    fontSize: 15,
   },
   calendar: {
-    color: "#42499A",
+    color: globalStyle.primary,
     fontSize: 22,
     marginRight: 10,
   },

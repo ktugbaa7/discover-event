@@ -1,28 +1,26 @@
 import { StyleSheet } from "react-native";
+import { globalStyle } from "../../assets/variable";
 
 export default StyleSheet.create({
   container: {
     marginHorizontal: 10,
     height: 250,
-    marginBottom: 20,
+    marginVertical: 20,
   },
   item: {
     width: 200,
     height: "100%",
-    backgroundColor: "#161616",
     borderRadius: 15,
+    backgroundColor: globalStyle.itemBackground,
   },
   text: {
-    color: "#4A52AC",
+    color: globalStyle.textColorBlack,
     padding: 10,
-  },
-  textCenter: {
-    color: "#454545",
-    paddingHorizontal: 10,
+    fontWeight: "bold",
   },
   itemImg: {
     width: "100%",
-    height: 150,
+    height: 200,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     resizeMode: "cover",

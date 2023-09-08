@@ -2,11 +2,13 @@ import { View, Text } from "react-native";
 import React from "react";
 import styles from "./Map.style";
 import MapView, { Marker } from "react-native-maps";
+import { Entypo } from '@expo/vector-icons';
 
 const Map = ({ mapLatitude, mapLongitude, id }) => {
   return (
     <View style={styles.containerMaps}>
       <View style={styles.container}>
+      <Entypo name="map" style={styles.icon} />
         <Text style={styles.text}>Haritadaki Konumu</Text>
       </View>
       <MapView

@@ -8,7 +8,7 @@ export const DiscoverProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [eventData, setEventData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [resultTitle, setResultTitle] = useState("");
+  
 
   const getData = useCallback(async () => {
     setIsLoading(true);
@@ -21,17 +21,18 @@ export const DiscoverProvider = ({ children }) => {
       setEventData(returnedData);
       setIsLoading(false);
 
-      if (returnedData?.length > 0) {
-        setResultTitle("");
-      } else {
-        setResultTitle("No Search Result Found!");
-      }
     } catch (err) {
       setError(err);
       console.log("ERROR", err);
       setIsLoading(false);
     }
   }, [searchQuery]);
+
+  const formatDate = (item) => {
+    const date = new Date(item);
+    const formattedDate = date.toLocaleDateString("tr-TR");
+    return formattedDate;
+  };
 
   const updateSearch = (searchQuery) => {
     setSearchQuery(searchQuery);
@@ -49,7 +50,8 @@ export const DiscoverProvider = ({ children }) => {
     error,
     setSearchQuery,
     updateSearch,
-    resultTitle,
+    formatDate,
+    
   };
 
   return (

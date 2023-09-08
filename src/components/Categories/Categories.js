@@ -5,15 +5,17 @@ import { Button, Card, Paragraph, Title } from "react-native-paper";
 
 const Categories = ({ id, categories }) => {
   return (
+    
     <View style={styles.container}>
       {id.free === false ? (
         <View style={styles.categoriesContainer}>
+          <Text style={styles.textHead}>Bilet Satın Al</Text>
           {categories.map((category, index) => (
             <Card key={index} style={styles.card}>
               <Card.Content style={styles.cardContent}>
                 <View>
-                  <Title>{category.name}</Title>
-                  <Paragraph>{`${category.price} TL`}</Paragraph>
+                  <Title style={styles.name}>{category.name}</Title>
+                  <Paragraph style={styles.name}>{`${category.price} TL`}</Paragraph>
                 </View>
                 <Button mode="contained" style={styles.button}>
                   Bilet Al
@@ -23,7 +25,7 @@ const Categories = ({ id, categories }) => {
           ))}
         </View>
       ) : (
-        <View></View>
+        <View><Text style={styles.name}>Ücretsiz Etkinlik</Text></View>
       )}
     </View>
   );

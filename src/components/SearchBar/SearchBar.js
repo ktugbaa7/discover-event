@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import styles from "./SearchBar.style";
 import { Searchbar } from "react-native-paper";
@@ -12,8 +12,8 @@ const SearchBar = ({ updateSearch, searchQuery }) => {
         value={searchQuery}
         mode="bar"
         iconColor="grey"
-        rippleColor={"grey"}
-        placeholderTextColor={"grey"}
+        rippleColor={"#9d9d9d"}
+        placeholderTextColor={"#9d9d9d"}
         style={styles.search}
       />
     </View>
