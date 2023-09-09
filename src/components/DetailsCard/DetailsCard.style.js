@@ -7,6 +7,7 @@ export default StyleSheet.create({
     backgroundColor: globalStyle.itemBackground,
     marginHorizontal: 15,
     borderRadius: 15,
+    marginTop:10
   },
   image: {
     width: "100%",

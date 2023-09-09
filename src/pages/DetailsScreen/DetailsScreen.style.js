@@ -7,7 +7,7 @@ export default StyleSheet.create({
     backgroundColor: globalStyle.secondary,
   },
   itemContainer: {
-    marginTop: 20,
+    marginVertical:10,
     height: 300,
     borderRadius: 10,
   },

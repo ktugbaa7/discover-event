@@ -24,7 +24,6 @@ const Categories = ({ navigation }) => {
       <Text style={styles.title}>{capitalizeFirstLetter(item.title)}</Text>
     </TouchableOpacity>
   );
-
   return (
     <View style={styles.container}>
       <FlatList

@@ -1,17 +1,16 @@
-import { View, Text, Dimensions, Image } from "react-native";
+import { View, Text, Dimensions, Image, StatusBar } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { DiscoverContext } from "../../context/DiscoverContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./HomeScreen.style";
 import DateRangePicker from "../../components/DateRangePicker/index";
-import Loading from "../../components/Loading/Loader";
 import Slider from "../../components/Slider/index";
 import { ScrollView } from "react-native";
 import Categories from "../../components/HomeCategories/index";
 import Events from "../../components/EventItem/index";
 
 const HomeScreen = ({ navigation }) => {
-  const { eventData, isLoading } = useContext(DiscoverContext);
+  const { eventData } = useContext(DiscoverContext);
 
   const { width: screenWidth } = Dimensions.get("window");
   const sliderWidth = screenWidth;
@@ -50,10 +49,9 @@ const HomeScreen = ({ navigation }) => {
     </View>
   );
 
-  if (isLoading) return <Loading />;
-
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar />
       <ScrollView>
         <View style={{ flex: 1 }}>
           <Text style={styles.title}>Popüler Etkinlikler</Text>

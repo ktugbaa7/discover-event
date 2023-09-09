@@ -19,9 +19,25 @@ const ListStackScreen = () => {
       <ListStack.Screen
         name="EventList"
         component={EventListScreen}
-        options={{ headerShown: false }}
+        options={{
+          title: 'Ara',
+          headerStyle: {backgroundColor: '#5257fb'},
+          headerTitleStyle: {color: '#fff', fontSize: 20, fontWeight:"bold"},
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+        }}  
       />
-      <ListStack.Screen name="Detay" component={DetailsScreen} />
+      <ListStack.Screen
+        name="Detay"
+        options={{
+          title: "Detay",
+          headerStyle: { backgroundColor: "#5257fb" },
+          headerTitleStyle: { color: "#fff", fontSize: 20, fontWeight: "bold" },
+          headerTitleAlign: "center",
+          headerTintColor: "#fff",
+        }}
+        component={DetailsScreen}
+      />
     </ListStack.Navigator>
   );
 };

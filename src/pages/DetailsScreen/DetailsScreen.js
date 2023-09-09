@@ -7,10 +7,9 @@ import {
   Text,
   Pressable,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DiscoverContext } from "../../context/DiscoverContext";
-import Loading from "../../components/Loading/Loader";
 import { AntDesign } from "@expo/vector-icons";
 import { Button } from "react-native-paper";
 import styles from "./DetailsScreen.style";
@@ -23,7 +22,7 @@ import { globalStyle } from "../../assets/variable";
 
 const DetailsScreen = ({ route }) => {
   const { id } = route.params;
-  const { eventData, isLoading } = useContext(DiscoverContext);
+  const { eventData } = useContext(DiscoverContext);
   const [selectedCenter, setSelectedCenter] = useState(null);
   const url = "https://www.techcareer.net/";
 
@@ -113,10 +112,6 @@ const DetailsScreen = ({ route }) => {
   };
 
   const { latitude: mapLatitude, longitude: mapLongitude } = id;
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <SafeAreaView style={styles.container}>

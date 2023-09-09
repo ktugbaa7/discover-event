@@ -5,16 +5,10 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: globalStyle.secondary,
+    paddingTop:10
   },
   list_container: {
     flex: 1,
-  },
-  title: {
-    color: globalStyle.textColorBlack,
-    fontSize: 25,
-    fontWeight: "bold",
-    marginHorizontal: 15,
-    marginVertical: 10,
   },
   switch: {
     flexDirection: "row",
@@ -39,9 +33,9 @@ export default StyleSheet.create({
   avatar: {
     resizeMode: "contain",
     width: "25%",
-    margin:10,
-    height:"85%",
-    borderRadius:15
+    margin: 10,
+    height: "85%",
+    borderRadius: 15,
   },
   description: {
     width: "75%",
@@ -60,22 +54,59 @@ export default StyleSheet.create({
     width: "50%",
     backgroundColor: globalStyle.textColorGrey,
     borderRadius: 15,
-    paddingVertical:3
+    paddingVertical: 3,
   },
   activeTab: {
     width: "50%",
     backgroundColor: globalStyle.primary,
     borderRadius: 15,
-    paddingVertical:3
+    paddingVertical: 3,
   },
   tabButtons: {
     flexDirection: "row",
     marginHorizontal: 15,
-    marginVertical: 15,
+    marginVertical: 8,
   },
   tabButtonText: {
     color: "white",
     padding: 5,
     textAlign: "center",
   },
+  eventItem: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    height: 100,
+    width: 380,
+    marginBottom: 10,
+    borderRadius: 15,
+    backgroundColor: globalStyle.itemBackground,
+  },
+  avatar: {
+    resizeMode: "contain",
+    width: "25%",
+    margin: 10,
+    height: "85%",
+    borderRadius: 15,
+  },
+  description: {
+    width: "65%",
+  },
+  itemText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: globalStyle.textColorBlack,
+  },
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: {
+    color: globalStyle.primary,
+    fontSize: 16,
+  },
+  center: {
+    fontSize: 13,
+    color: globalStyle.textColorGrey,
+  }
 });

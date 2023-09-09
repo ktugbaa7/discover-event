@@ -50,20 +50,61 @@ export default StyleSheet.create({
     flexDirection: "row-reverse",
     justifyContent: "center",
   },
-  button:{
-    borderRadius:15,
+  button: {
+    borderRadius: 15,
     flexDirection: "row",
     justifyContent: "space-evenly",
     backgroundColor: globalStyle.primary,
   },
-  text:{
+  text: {
     color: globalStyle.itemBackground,
-    paddingLeft:10,
-    paddingRight:25
+    paddingLeft: 10,
+    paddingRight: 25,
   },
   date: {
     color: globalStyle.itemBackground,
-    paddingLeft:25,
-    fontSize: 15
+    paddingLeft: 25,
+    fontSize: 15,
+  },
+  noResultsText: {
+    color: globalStyle.textColorGrey,
+    paddingVertical: 10,
+  },
+  eventItem: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    height: 100,
+    width: 380,
+    marginBottom: 10,
+    borderRadius: 15,
+    backgroundColor: globalStyle.itemBackground,
+  },
+  avatar: {
+    resizeMode: "contain",
+    width: "25%",
+    margin: 10,
+    height: "85%",
+    borderRadius: 15,
+  },
+  description: {
+    width: "65%",
+  },
+  itemText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: globalStyle.textColorBlack,
+  },
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: {
+    color: globalStyle.primary,
+    fontSize: 16,
+  },
+  center: {
+    fontSize: 13,
+    color: globalStyle.textColorGrey,
   }
 });

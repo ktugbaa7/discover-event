@@ -2,13 +2,13 @@ import React from "react";
 import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import styles from "./Events.style";
 
-const PastDatesList = (props) => {
+const Events = (props) => {
   return (
     <View style={styles.container}>
       <FlatList
         data={props.data}
         horizontal={true}
-        showsHorizontalScrollIndicator={true}
+        showsHorizontalScrollIndicator={false}
         ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
@@ -24,4 +24,4 @@ const PastDatesList = (props) => {
   );
 };
 
-export default PastDatesList;
+export default React.memo(Events);

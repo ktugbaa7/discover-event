@@ -31,14 +31,36 @@ const HomeStackScreen = () => {
       <HomeStack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ headerShown: false }}
+        options={{
+          title: "BiletiniAl",
+          headerStyle: { backgroundColor: "#5257fb" },
+          headerTitleStyle: { color: "#fff", fontSize: 20, fontWeight: "bold" },
+          headerTitleAlign: "center",
+          headerTintColor: "red",
+        }}
       />
       <HomeStack.Screen
         name="Kategori"
         component={CategoryScreen}
-        
+        options={{
+          title: "Kategoriler",
+          headerStyle: { backgroundColor: "#5257fb" },
+          headerTitleStyle: { color: "#fff", fontSize: 20, fontWeight: "bold" },
+          headerTitleAlign: "center",
+          headerTintColor: "#fff",
+        }}
       />
-      <HomeStack.Screen name="Detay" component={DetailsScreen} />
+      <HomeStack.Screen
+        name="Detay"
+        options={{
+          title: "Detay",
+          headerStyle: { backgroundColor: "#5257fb" },
+          headerTitleStyle: { color: "#fff", fontSize: 20, fontWeight: "bold" },
+          headerTitleAlign: "center",
+          headerTintColor: "#fff",
+        }}
+        component={DetailsScreen}
+      />
       <HomeStack.Screen name="NotFound" component={NotFound} />
     </HomeStack.Navigator>
   );

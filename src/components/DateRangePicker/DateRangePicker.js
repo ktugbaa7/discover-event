@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Pressable, Image } from "react-native";
 import styles from "./DateRangePicker.style";
 import { Button } from "react-native-paper";
 import { DiscoverContext } from "../../context/DiscoverContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Fontisto } from "@expo/vector-icons";
-import ListPressable from "../ListPressable";
+import { MaterialIcons, AntDesign, Fontisto } from "@expo/vector-icons";
 
 const DateRangePicker = ({ navigation }) => {
-  const { eventData } = useContext(DiscoverContext);
+  const { eventData, formatDate } = useContext(DiscoverContext);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
@@ -96,6 +95,7 @@ const DateRangePicker = ({ navigation }) => {
           onChange={handleEndDateChange}
         />
       )}
+
       <FlatList
         data={sortedEvents}
         nestedScrollEnabled={true}
@@ -105,7 +105,33 @@ const DateRangePicker = ({ navigation }) => {
         refreshing={true}
         contentContainerStyle={{ paddingVertical: 20 }}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ListPressable item={item} goToDetails={goToDetails} />}
+        ListEmptyComponent={
+          <Text style={styles.center}>Bu tarihler arasında etkinlik yok.</Text>
+        }
+        renderItem={({ item }) => (
+          <Pressable onPress={() => goToDetails(item)}>
+            <View style={styles.eventItem}>
+              <Image style={styles.avatar} source={{ uri: item.avatar }} />
+              <View style={styles.description}>
+                <Text style={styles.itemText} numberOfLines={1}>
+                  {item.name}
+                </Text>
+                <View style={styles.content}>
+                  <MaterialIcons name="place" style={styles.icon} />
+                  <Text style={styles.center} numberOfLines={1}>
+                    {item.center}
+                  </Text>
+                </View>
+                <View style={styles.content}>
+                  <AntDesign name="calendar" style={styles.icon} />
+                  <Text style={styles.center}>
+                    {formatDate(item.timestart)}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </Pressable>
+        )}
       />
     </View>
   );

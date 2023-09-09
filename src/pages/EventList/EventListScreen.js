@@ -1,13 +1,15 @@
-import { View, Text, FlatList, Image, Pressable, Alert } from "react-native";
+import { View, Text, FlatList, Image, Pressable, ActivityIndicator } from "react-native";
 import React, { useContext, useState } from "react";
 import { DiscoverContext } from "../../context/DiscoverContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SearchBar from "../../components/SearchBar/index";
 import styles from "./EventListScreen.style";
-import ListPressable from "../../components/ListPressable";
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
 const EventListScreen = ({ navigation }) => {
-  const { eventData, searchQuery, updateSearch } = useContext(DiscoverContext);
+
+  const { eventData, searchQuery, updateSearch, formatDate, isLoading, resultTitle } =
+    useContext(DiscoverContext);
 
   const goToDetails = (id) => {
     navigation.navigate("Detay", { id: id });
@@ -34,7 +36,26 @@ const EventListScreen = ({ navigation }) => {
       );
     if (shouldShowItem) {
       return (
-        <ListPressable item={item} goToDetails={goToDetails}/>
+        <Pressable onPress={() => goToDetails(item)}>
+          <View style={styles.eventItem}>
+            <Image style={styles.avatar} source={{ uri: item.avatar }} />
+            <View style={styles.description}>
+              <Text style={styles.itemText} numberOfLines={1}>
+                {item.name}
+              </Text>
+              <View style={styles.content}>
+                <MaterialIcons name="place" style={styles.icon} />
+                <Text style={styles.center} numberOfLines={1}>
+                  {item.center}
+                </Text>
+              </View>
+              <View style={styles.content}>
+                <AntDesign name="calendar" style={styles.icon} />
+                <Text style={styles.center}>{formatDate(item.timestart)}</Text>
+              </View>
+            </View>
+          </View>
+        </Pressable>
       );
     }
   };
@@ -42,9 +63,8 @@ const EventListScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.list_container}>
-        <Text style={styles.title}>Ara</Text>
         <SearchBar updateSearch={updateSearch} searchQuery={searchQuery} />
-        
+
         <View style={styles.tabButtons}>
           <Pressable
             style={[
@@ -66,7 +86,9 @@ const EventListScreen = ({ navigation }) => {
           </Pressable>
         </View>
         <View>
-          <FlatList
+        {isLoading ? (
+          <ActivityIndicator size="medium" color="#5257fb" />
+        ) : (<FlatList
             data={currentTab === "future" ? futureEvents : pastEvents}
             style={styles.flatlist}
             refreshing={true}
@@ -74,7 +96,11 @@ const EventListScreen = ({ navigation }) => {
             contentContainerStyle={{ paddingBottom: 150 }}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => renderItemSearch(item)}
-          />
+            ListEmptyComponent={
+              <Text style={styles.name}>{resultTitle}</Text>
+            }
+          />)}
+          
         </View>
       </View>
     </SafeAreaView>
