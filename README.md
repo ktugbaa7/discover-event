@@ -1,5 +1,5 @@
 # Discover-event
-[@techcareer.net](https://www.techcareer.net/) 
+
 An event search and ticket purchase application developed with React Native.
 
 ## Installation
